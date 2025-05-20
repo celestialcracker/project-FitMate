@@ -11,14 +11,6 @@ import { FoodItem, Meal } from '../types';
 import { motion } from 'framer-motion';
 import { X, Search } from 'lucide-react';
 
-/**
- * Props for the AddFoodModal component
- * @property {boolean} isOpen - Controls the visibility of the modal
- * @property {() => void} onClose - Callback function to close the modal
- * @property {FoodItem[]} foodItems - Array of available food items to choose from
- * @property {Meal['type']} mealType - Type of meal (e.g., breakfast, lunch, dinner)
- * @property {(food: FoodItem, quantity: number, mealType: Meal['type']) => void} onAddFood - Callback function when a food item is added
- */
 interface AddFoodModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,6 +27,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
   onAddFood,
 }) => {
   // State management for search, selection, and quantity
+
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -87,6 +80,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
       onClick={onClose}
     >
       {/* Modal content container with slide-up animation */}
+
       <motion.div 
         initial={{ y: 100 }}
         animate={{ y: 0 }}
@@ -107,7 +101,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
 
         {/* Conditional rendering based on whether a food item is selected */}
         {selectedFood ? (
-          // Selected food item view with nutritional information
+        // Selected food item view with nutritional information
           <div className="space-y-4">
             <h3 className="text-lg font-medium">{selectedFood.name}</h3>
             
@@ -161,7 +155,6 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
             </div>
           </div>
         ) : (
-          // Food search and selection view
           <div>
             <div className="relative mb-4">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
