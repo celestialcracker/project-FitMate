@@ -1,13 +1,29 @@
+/**
+ * Data Management Utilities
+ * 
+ * This module provides functions for managing application data including:
+ * - Daily activity and nutrition logs
+ * - Food items and meals
+ * - Exercise tracking
+ * - Progress statistics
+ * 
+ * Note: This is a mock implementation that uses localStorage for data persistence.
+ * In a production environment, this would be replaced with actual API calls to a backend service.
+ */
+
 import { format } from 'date-fns';
 import { DailyLog, Exercise, FoodItem, Meal, WeeklyProgress } from '../types';
 import { MOCK_ALL_LOGS, MOCK_EXERCISES, MOCK_FOOD_ITEMS, MOCK_WEEKLY_PROGRESS } from '../data/mockData';
 
-// Local storage keys
+// Local storage keys for different data types
 const LOGS_STORAGE_KEY = 'fitmate_logs';
 const FOOD_STORAGE_KEY = 'fitmate_foods';
 const EXERCISES_STORAGE_KEY = 'fitmate_exercises';
 
-// Initialize data in localStorage if not present
+/**
+ * Initializes the application data in localStorage if not already present
+ * Uses mock data as initial values
+ */
 const initializeData = () => {
   if (!localStorage.getItem(LOGS_STORAGE_KEY)) {
     localStorage.setItem(LOGS_STORAGE_KEY, JSON.stringify(MOCK_ALL_LOGS));
@@ -22,10 +38,13 @@ const initializeData = () => {
   }
 };
 
-// Initialize on load
+// Initialize data on module load
 initializeData();
 
-// Get today's log
+/**
+ * Retrieves or creates today's activity and nutrition log
+ * @returns {Promise<DailyLog>} Promise resolving to today's log data
+ */
 export const getTodayLog = (): Promise<DailyLog> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -34,7 +53,7 @@ export const getTodayLog = (): Promise<DailyLog> => {
       let todayLog = logs.find(log => log.date === today);
       
       if (!todayLog) {
-        // If no log exists for today, create one
+        // Create new log entry for today if none exists
         todayLog = {
           date: today,
           meals: [],
@@ -42,7 +61,7 @@ export const getTodayLog = (): Promise<DailyLog> => {
           waterIntake: 0,
         };
         
-        // Save the new log
+        // Save the new log to storage
         localStorage.setItem(
           LOGS_STORAGE_KEY, 
           JSON.stringify([...logs, todayLog])
@@ -54,7 +73,10 @@ export const getTodayLog = (): Promise<DailyLog> => {
   });
 };
 
-// Get weekly progress data
+/**
+ * Retrieves weekly progress data
+ * @returns {Promise<WeeklyProgress[]>} Promise resolving to array of weekly progress entries
+ */
 export const getWeeklyProgress = (): Promise<WeeklyProgress[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -63,7 +85,10 @@ export const getWeeklyProgress = (): Promise<WeeklyProgress[]> => {
   });
 };
 
-// Get all food items
+/**
+ * Retrieves all available food items
+ * @returns {Promise<FoodItem[]>} Promise resolving to array of food items
+ */
 export const getFoodItems = (): Promise<FoodItem[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -73,7 +98,11 @@ export const getFoodItems = (): Promise<FoodItem[]> => {
   });
 };
 
-// Add meal to today's log
+/**
+ * Adds a new meal to today's log
+ * @param {Omit<Meal, 'id'>} meal - Meal data without ID
+ * @returns {Promise<Meal>} Promise resolving to the created meal with ID
+ */
 export const addMeal = (meal: Omit<Meal, 'id'>): Promise<Meal> => {
   return new Promise((resolve) => {
     setTimeout(async () => {
@@ -85,7 +114,7 @@ export const addMeal = (meal: Omit<Meal, 'id'>): Promise<Meal> => {
       
       todayLog.meals = [...todayLog.meals, newMeal];
       
-      // Update storage
+      // Update storage with new meal
       const logs = JSON.parse(localStorage.getItem(LOGS_STORAGE_KEY) || '[]') as DailyLog[];
       const updatedLogs = logs.map(log => 
         log.date === todayLog.date ? todayLog : log
@@ -97,14 +126,18 @@ export const addMeal = (meal: Omit<Meal, 'id'>): Promise<Meal> => {
   });
 };
 
-// Update water intake for today
+/**
+ * Updates today's water intake
+ * @param {number} amount - New water intake amount in ml
+ * @returns {Promise<number>} Promise resolving to the updated water intake
+ */
 export const updateWaterIntake = (amount: number): Promise<number> => {
   return new Promise((resolve) => {
     setTimeout(async () => {
       const todayLog = await getTodayLog();
       todayLog.waterIntake = amount;
       
-      // Update storage
+      // Update storage with new water intake
       const logs = JSON.parse(localStorage.getItem(LOGS_STORAGE_KEY) || '[]') as DailyLog[];
       const updatedLogs = logs.map(log => 
         log.date === todayLog.date ? todayLog : log
@@ -116,17 +149,22 @@ export const updateWaterIntake = (amount: number): Promise<number> => {
   });
 };
 
-// Toggle exercise completion
+/**
+ * Toggles the completion status of an exercise
+ * @param {number} exerciseId - ID of the exercise to toggle
+ * @returns {Promise<Exercise[]>} Promise resolving to updated array of exercises
+ */
 export const toggleExerciseCompletion = (exerciseId: number): Promise<Exercise[]> => {
   return new Promise((resolve) => {
     setTimeout(async () => {
       const todayLog = await getTodayLog();
       
+      // Toggle completion status of the specified exercise
       todayLog.exercises = todayLog.exercises.map(ex => 
         ex.id === exerciseId ? { ...ex, completed: !ex.completed } : ex
       );
       
-      // Update storage
+      // Update storage with new exercise status
       const logs = JSON.parse(localStorage.getItem(LOGS_STORAGE_KEY) || '[]') as DailyLog[];
       const updatedLogs = logs.map(log => 
         log.date === todayLog.date ? todayLog : log
@@ -138,10 +176,21 @@ export const toggleExerciseCompletion = (exerciseId: number): Promise<Exercise[]
   });
 };
 
-// Calculate total calories and macros consumed today
+/**
+ * Calculates today's nutrition and activity statistics
+ * @returns {Promise<{
+ *   caloriesConsumed: number,
+ *   proteinConsumed: number,
+ *   carbsConsumed: number,
+ *   fatConsumed: number,
+ *   waterIntake: number,
+ *   completedExercises: number
+ * }>} Promise resolving to today's statistics
+ */
 export const calculateTodayStats = async () => {
   const todayLog = await getTodayLog();
   
+  // Calculate totals from all meals
   return todayLog.meals.reduce(
     (acc, meal) => {
       acc.caloriesConsumed += meal.totalCalories;
