@@ -12,26 +12,12 @@
  * improved concurrent rendering capabilities.
  */
 
-// React core imports
-import { StrictMode } from 'react';  // Enables additional development checks and warnings
-import { createRoot } from 'react-dom/client';  // React 18's root API for concurrent rendering
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
 
-// Application imports
-import App from './App.tsx';  // Main application component
-import './index.css';  // Global styles and Tailwind CSS
-
-// Get the root DOM element
-const rootElement = document.getElementById('root');
-
-// Ensure root element exists
-if (!rootElement) {
-  throw new Error('Root element not found. Please ensure there is a div with id="root" in your index.html');
-}
-
-// Create and render the root React component
-createRoot(rootElement).render(
-  // StrictMode helps identify potential problems in the application
-  // It enables additional development checks and warnings
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
   </StrictMode>
