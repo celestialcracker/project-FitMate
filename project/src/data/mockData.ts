@@ -26,7 +26,7 @@ export const MOCK_USERS: User[] = [
   {
     id: 1,
     name: 'Jordan Lee',
-    email: 'jordan@example.com',
+    email: 'jordan@gmail.com',
     age: 28,
     weight: 75,
     height: 175,
@@ -35,6 +35,58 @@ export const MOCK_USERS: User[] = [
     dailyProteinTarget: 140,
     dailyWaterTarget: 8,
     joinedDate: '2023-01-15'
+  },
+  {
+    id: 2,
+    name: 'Ava Smith',
+    email: 'ava.smith@gmail.com',
+    age: 32,
+    weight: 68,
+    height: 165,
+    goal: 'Build muscle',
+    dailyCalorieTarget: 2500,
+    dailyProteinTarget: 160,
+    dailyWaterTarget: 10,
+    joinedDate: '2022-11-22'
+  },
+  {
+    id: 3,
+    name: 'Liam Johnson',
+    email: 'liam.johnson@gmail.com',
+    age: 40,
+    weight: 85,
+    height: 180,
+    goal: 'Maintain weight',
+    dailyCalorieTarget: 2300,
+    dailyProteinTarget: 130,
+    dailyWaterTarget: 9,
+    joinedDate: '2023-06-03'
+  },
+  {
+    id: 4,
+    name: 'Sophia Nguyen',
+    email: 'sophia.nguyen@gmail.com',
+    age: 25,
+    weight: 60,
+    height: 160,
+    goal: 'Increase stamina',
+    dailyCalorieTarget: 2100,
+    dailyProteinTarget: 120,
+    dailyWaterTarget: 8,
+    joinedDate: '2024-02-10'
+  },
+  {
+    id: 5,
+    name: 'Ethan Brown',
+    email: 'ethan.brown@gmail.com',
+    age: 29,
+    weight: 90,
+    height: 185,
+    goal: 'Lose weight',
+    dailyCalorieTarget: 2000,
+    dailyProteinTarget: 150,
+    dailyWaterTarget: 11,
+    joinedDate: '2023-09-18'
   }
 ];
 
