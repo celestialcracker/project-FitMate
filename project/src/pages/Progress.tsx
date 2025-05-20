@@ -30,23 +30,10 @@ import { getWeeklyProgress } from '../utils/dataUtils';
 import NavBar from '../components/NavBar';
 import { BarChart2, Award, TrendingUp } from 'lucide-react';
 
-/**
- * Progress Component
- * 
- * Renders progress tracking visualizations and statistics.
- * Manages weekly progress data and chart configurations.
- * 
- * @returns {JSX.Element} Rendered progress page
- */
 const Progress: React.FC = () => {
-  // State management for progress data and loading
   const [progressData, setProgressData] = useState<WeeklyProgress[]>([]);
   const [loading, setLoading] = useState(true);
   
-  /**
-   * Fetch weekly progress data on component mount
-   * Updates state with fetched progress data
-   */
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -62,23 +49,20 @@ const Progress: React.FC = () => {
     fetchData();
   }, []);
   
-  /**
-   * Format progress data for chart display
-   * Adds formatted day and full date fields
-   */
+  // Format data for charts
   const formattedData = progressData.map(item => ({
     ...item,
     day: format(parseISO(item.date), 'EEE'),
     fullDate: format(parseISO(item.date), 'MMM d'),
   }));
 
-  // Calculate progress statistics
+  // Calculate streaks and averages
   const workoutDays = progressData.filter(day => day.workoutsCompleted > 0).length;
   const caloriesBurnedAvg = progressData.length > 0
     ? Math.round(progressData.reduce((sum, day) => sum + day.caloriesBurned, 0) / progressData.length)
     : 0;
 
-  // Chart color configuration
+  // Theme colors
   const chartColors = {
     calories: '#3B82F6',  // Blue
     workouts: '#10B981',  // Emerald
@@ -86,7 +70,6 @@ const Progress: React.FC = () => {
     target: '#F59E0B'     // Amber
   };
 
-  // Loading state UI
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -100,17 +83,14 @@ const Progress: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 dark:bg-gray-900">
-      {/* Page Header */}
       <header className="bg-gradient-to-r from-purple-600 to-purple-400 p-6 text-white">
         <h1 className="text-2xl font-bold">Your Progress</h1>
         <p className="text-purple-100">Tracking your fitness journey</p>
       </header>
 
       <main className="mx-auto max-w-md p-4">
-        {/* Progress Summary Cards */}
         <section className="mb-6">
           <div className="grid grid-cols-2 gap-4">
-            {/* Workout Streak Card */}
             <div className="card">
               <div className="mb-2 flex items-center">
                 <Award className="mr-2 h-5 w-5 text-orange-500" />
@@ -120,7 +100,6 @@ const Progress: React.FC = () => {
               <p className="text-xs text-gray-600 dark:text-gray-400">this week</p>
             </div>
             
-            {/* Average Calories Card */}
             <div className="card">
               <div className="mb-2 flex items-center">
                 <TrendingUp className="mr-2 h-5 w-5 text-blue-500" />
@@ -132,7 +111,6 @@ const Progress: React.FC = () => {
           </div>
         </section>
         
-        {/* Calories Burned Chart */}
         <section className="mb-8">
           <h2 className="mb-4 text-xl font-semibold">Calories Burned</h2>
           <div className="card overflow-hidden">
@@ -171,7 +149,6 @@ const Progress: React.FC = () => {
           </div>
         </section>
         
-        {/* Workouts Completed Chart */}
         <section className="mb-8">
           <h2 className="mb-4 text-xl font-semibold">Workouts Completed</h2>
           <div className="card overflow-hidden">
@@ -215,7 +192,6 @@ const Progress: React.FC = () => {
           </div>
         </section>
         
-        {/* Weight Trend Chart (Conditional) */}
         {progressData.some(data => data.weight) && (
           <section className="mb-8">
             <h2 className="mb-4 text-xl font-semibold">Weight Trend</h2>
@@ -261,7 +237,6 @@ const Progress: React.FC = () => {
           </section>
         )}
 
-        {/* Daily Targets Chart */}
         <section>
           <h2 className="mb-4 text-xl font-semibold">Daily Targets Met</h2>
           <div className="card overflow-hidden">
@@ -287,7 +262,7 @@ const Progress: React.FC = () => {
                     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
                   }}
                   formatter={(value, name) => {
-                    return [value ? 'Yes' : 'No', 'Target met'];
+                    return [value ? 'Target met' : 'Target missed', name];
                   }}
                   labelFormatter={(label) => {
                     const item = formattedData.find(d => d.day === label);
@@ -295,11 +270,18 @@ const Progress: React.FC = () => {
                   }}
                 />
                 <Bar 
-                  dataKey="targetsMet" 
+                  dataKey="waterTarget" 
+                  fill={chartColors.water}
+                  radius={[4, 4, 0, 0]}
+                  barSize={18}
+                  name="Water"
+                />
+                <Bar 
+                  dataKey="macroTarget" 
                   fill={chartColors.target}
                   radius={[4, 4, 0, 0]}
-                  barSize={24}
-                  name="Targets"
+                  barSize={18}
+                  name="Macros"
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -307,7 +289,6 @@ const Progress: React.FC = () => {
         </section>
       </main>
 
-      {/* Navigation Bar */}
       <NavBar />
     </div>
   );
