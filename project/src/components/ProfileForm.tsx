@@ -1,13 +1,42 @@
+/**
+ * ProfileForm Component
+ * 
+ * A form component for managing user profile information and fitness goals.
+ * Features:
+ * - Editable user profile fields (name, age, weight, height)
+ * - Fitness goal selection
+ * - Daily targets for calories, protein, and water intake
+ * - Form validation with min/max constraints
+ * - Loading states and error handling
+ * - Success feedback with auto-dismissing message
+ * - Responsive grid layout
+ */
+
 import React, { useState } from 'react';
 import { User } from '../types';
 import { updateUserProfile } from '../utils/authUtils';
 
+/**
+ * Props for the ProfileForm component
+ * @property {User} user - Current user data
+ * @property {(updatedUser: User) => void} onUpdate - Callback function when profile is updated
+ */
 interface ProfileFormProps {
   user: User;
   onUpdate: (updatedUser: User) => void;
 }
 
+/**
+ * ProfileForm Component
+ * 
+ * Renders a form for editing user profile information and fitness goals.
+ * Handles form state, validation, and submission with API integration.
+ * 
+ * @param {ProfileFormProps} props - Component props
+ * @returns {JSX.Element} Rendered profile form
+ */
 const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
+  // Initialize form data with current user values
   const [formData, setFormData] = useState<Partial<User>>({
     name: user.name,
     age: user.age,
@@ -19,10 +48,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
     dailyWaterTarget: user.dailyWaterTarget
   });
   
+  // Form state management
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  /**
+   * Handles input changes and updates form state
+   * Converts numeric inputs to numbers, preserves empty string for clearing
+   */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
     
@@ -32,6 +66,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
     });
   };
 
+  /**
+   * Handles form submission
+   * Updates user profile via API and manages loading/error states
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -54,6 +92,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
     }
   };
 
+  // Available fitness goal options
   const goalOptions = [
     'Lose weight',
     'Gain muscle',
@@ -64,18 +103,21 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Error message display */}
       {error && (
         <div className="rounded-lg bg-red-50 p-3 text-red-500 dark:bg-red-900/20 dark:text-red-400">
           {error}
         </div>
       )}
       
+      {/* Success message display */}
       {success && (
         <div className="rounded-lg bg-green-50 p-3 text-green-500 dark:bg-green-900/20 dark:text-green-400">
           Profile updated successfully!
         </div>
       )}
 
+      {/* Basic Information Section */}
       <div>
         <label className="label" htmlFor="name">
           Name
@@ -91,6 +133,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
         />
       </div>
 
+      {/* Age and Weight Section */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="label" htmlFor="age">
@@ -126,6 +169,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
         </div>
       </div>
 
+      {/* Height and Goal Section */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="label" htmlFor="height">
@@ -164,6 +208,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
         </div>
       </div>
 
+      {/* Daily Targets Section */}
       <div className="grid grid-cols-3 gap-4">
         <div>
           <label className="label" htmlFor="dailyCalorieTarget">
@@ -217,6 +262,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user, onUpdate }) => {
         </div>
       </div>
 
+      {/* Submit Button */}
       <button 
         type="submit"
         disabled={isLoading}
