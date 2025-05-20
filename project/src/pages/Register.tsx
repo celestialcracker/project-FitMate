@@ -19,16 +19,7 @@ import { Dumbbell, Mail, Lock, User } from 'lucide-react';
 import { register } from '../utils/authUtils';
 import { motion } from 'framer-motion';
 
-/**
- * Register Component
- * 
- * Renders a registration form with user information fields.
- * Handles form submission, validation, and account creation.
- * 
- * @returns {JSX.Element} Rendered registration page
- */
 const Register: React.FC = () => {
-  // Form state management
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,17 +29,9 @@ const Register: React.FC = () => {
   
   const navigate = useNavigate();
 
-  /**
-   * Handles form submission and user registration
-   * Validates password match and creates new account
-   * Navigates to dashboard on success
-   * 
-   * @param {React.FormEvent} e - Form submission event
-   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate password match
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -69,13 +52,11 @@ const Register: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 p-4 dark:bg-gray-900">
-      {/* Animated Registration Card */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md rounded-2xl bg-white p-8 shadow dark:bg-gray-800"
       >
-        {/* Header Section */}
         <div className="mb-6 text-center">
           <div className="mb-2 flex justify-center">
             <div className="rounded-full bg-blue-100 p-3 dark:bg-blue-900">
@@ -88,16 +69,13 @@ const Register: React.FC = () => {
           </p>
         </div>
 
-        {/* Error Message Display */}
         {error && (
           <div className="mb-4 rounded-lg bg-red-50 p-3 text-red-500 dark:bg-red-900/20 dark:text-red-400">
             {error}
           </div>
         )}
 
-        {/* Registration Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name Input Field */}
           <div>
             <label className="label" htmlFor="name">
               Name
@@ -116,7 +94,6 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Email Input Field */}
           <div>
             <label className="label" htmlFor="email">
               Email
@@ -135,9 +112,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Password Fields Grid */}
           <div className="grid grid-cols-2 gap-4">
-            {/* Password Input */}
             <div>
               <label className="label" htmlFor="password">
                 Password
@@ -157,7 +132,6 @@ const Register: React.FC = () => {
               </div>
             </div>
 
-            {/* Confirm Password Input */}
             <div>
               <label className="label" htmlFor="confirmPassword">
                 Confirm Password
@@ -175,7 +149,6 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isLoading}
@@ -185,7 +158,6 @@ const Register: React.FC = () => {
           </button>
         </form>
 
-        {/* Login Link */}
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
