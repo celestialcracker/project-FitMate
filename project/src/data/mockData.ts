@@ -18,10 +18,6 @@
 import { User, FoodItem, Exercise, Meal, DailyLog, WeeklyProgress } from '../types';
 import { addDays, format, subDays } from 'date-fns';
 
-/**
- * Sample user data for development and testing
- * Includes realistic profile information and fitness goals
- */
 export const MOCK_USERS: User[] = [
   {
     id: 1,
@@ -38,66 +34,71 @@ export const MOCK_USERS: User[] = [
   },
   {
     id: 2,
-    name: 'Ava Smith',
-    email: 'ava.smith@gmail.com',
+    name: 'Alicia Gomez',
+    email: 'alicia.gomez@gmail.com',
     age: 32,
     weight: 68,
-    height: 165,
+    height: 168,
     goal: 'Build muscle',
     dailyCalorieTarget: 2500,
     dailyProteinTarget: 160,
     dailyWaterTarget: 10,
-    joinedDate: '2022-11-22'
+    joinedDate: '2023-03-22'
   },
   {
     id: 3,
-    name: 'Liam Johnson',
-    email: 'liam.johnson@gmail.com',
+    name: 'Michael Chan',
+    email: 'michael.chan@gmail.com',
     age: 40,
-    weight: 85,
+    weight: 82,
     height: 180,
     goal: 'Maintain weight',
-    dailyCalorieTarget: 2300,
+    dailyCalorieTarget: 2400,
     dailyProteinTarget: 130,
     dailyWaterTarget: 9,
-    joinedDate: '2023-06-03'
+    joinedDate: '2022-11-10'
   },
   {
     id: 4,
-    name: 'Sophia Nguyen',
-    email: 'sophia.nguyen@gmail.com',
+    name: 'Emily Nguyen',
+    email: 'emily.nguyen@gmail.com',
     age: 25,
     weight: 60,
-    height: 160,
-    goal: 'Increase stamina',
+    height: 165,
+    goal: 'Improve endurance',
     dailyCalorieTarget: 2100,
     dailyProteinTarget: 120,
     dailyWaterTarget: 8,
-    joinedDate: '2024-02-10'
+    joinedDate: '2023-07-08'
   },
   {
     id: 5,
-    name: 'Ethan Brown',
-    email: 'ethan.brown@gmail.com',
-    age: 29,
+    name: 'David Kim',
+    email: 'david.kim@gmail.com',
+    age: 35,
     weight: 90,
-    height: 185,
+    height: 182,
     goal: 'Lose weight',
     dailyCalorieTarget: 2000,
     dailyProteinTarget: 150,
-    dailyWaterTarget: 11,
-    joinedDate: '2023-09-18'
+    dailyWaterTarget: 10,
+    joinedDate: '2023-02-17'
+  },
+  {
+    id: 6,
+    name: 'Sophia Brown',
+    email: 'sophia.brown@gmail.com',
+    age: 30,
+    weight: 72,
+    height: 170,
+    goal: 'Tone body',
+    dailyCalorieTarget: 2300,
+    dailyProteinTarget: 135,
+    dailyWaterTarget: 9,
+    joinedDate: '2024-01-05'
   }
 ];
 
-/**
- * Collection of common food items with nutritional information
- * Each item includes:
- * - Basic information (name, serving size)
- * - Macronutrient breakdown (protein, carbs, fat)
- * - Caloric content
- * Values are based on standard nutritional databases
- */
 export const MOCK_FOOD_ITEMS: FoodItem[] = [
   {
     id: 1,
@@ -191,15 +192,6 @@ export const MOCK_FOOD_ITEMS: FoodItem[] = [
   }
 ];
 
-/**
- * Sample exercise routines with realistic workout details
- * Each exercise includes:
- * - Exercise name and type
- * - Sets and reps (for strength exercises)
- * - Duration (for timed exercises)
- * - Completion status
- * - Exercise image URL
- */
 export const MOCK_EXERCISES: Exercise[] = [
   {
     id: 1,
@@ -258,15 +250,7 @@ export const MOCK_EXERCISES: Exercise[] = [
   }
 ];
 
-/**
- * Generates a sample meal plan for the current day
- * Creates a balanced meal plan with:
- * - Breakfast, lunch, dinner, and snack
- * - Realistic food combinations
- * - Calculated nutritional totals
- * 
- * @returns {Meal[]} Array of meals with their items and nutritional totals
- */
+// Generate meals for today
 const generateTodayMeals = (): Meal[] => {
   return [
     {
@@ -320,15 +304,7 @@ const generateTodayMeals = (): Meal[] => {
   ];
 };
 
-/**
- * Today's daily log entry
- * Includes:
- * - Current date
- * - Generated meal plan
- * - Exercise routine
- * - Water intake
- * - Current weight
- */
+// Generate today's log
 export const MOCK_TODAY_LOG: DailyLog = {
   date: format(new Date(), 'yyyy-MM-dd'),
   meals: generateTodayMeals(),
@@ -337,15 +313,7 @@ export const MOCK_TODAY_LOG: DailyLog = {
   weight: 75
 };
 
-/**
- * Weekly progress data for the past 7 days
- * Each day includes:
- * - Weight tracking with small variations
- * - Calories burned during workouts
- * - Number of completed workouts
- * - Achievement of water and macro targets
- * Data includes realistic fluctuations to simulate real progress
- */
+// Generate sample weekly progress data
 export const MOCK_WEEKLY_PROGRESS: WeeklyProgress[] = Array.from({ length: 7 }).map((_, index) => {
   const date = format(subDays(new Date(), 6 - index), 'yyyy-MM-dd');
   return {
@@ -358,15 +326,7 @@ export const MOCK_WEEKLY_PROGRESS: WeeklyProgress[] = Array.from({ length: 7 }).
   };
 });
 
-/**
- * Historical daily logs for the past week
- * Each log includes:
- * - Date-specific meal plans
- * - Exercise routines
- * - Water intake with random variations
- * - Weight tracking
- * Used for displaying progress and historical data
- */
+// Generate previous logs for the past week
 export const MOCK_PREVIOUS_LOGS: DailyLog[] = Array.from({ length: 6 }).map((_, index) => {
   const date = format(subDays(new Date(), 6 - index), 'yyyy-MM-dd');
   const waterIntake = Math.floor(Math.random() * 5) + 3;
