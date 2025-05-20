@@ -1,6 +1,27 @@
+/**
+ * Mock Data Module
+ * 
+ * This module provides mock data for development and testing purposes.
+ * It includes sample data for users, food items, exercises, meals, and daily logs.
+ * The data is structured to mimic real application data and includes realistic
+ * nutritional values, exercise routines, and progress tracking.
+ * 
+ * Features:
+ * - Sample user profile with realistic fitness goals
+ * - Common food items with accurate nutritional information
+ * - Exercise routines with images and completion tracking
+ * - Daily meal plans with calculated totals
+ * - Weekly progress tracking with realistic variations
+ * - Historical logs for the past week
+ */
+
 import { User, FoodItem, Exercise, Meal, DailyLog, WeeklyProgress } from '../types';
 import { addDays, format, subDays } from 'date-fns';
 
+/**
+ * Sample user data for development and testing
+ * Includes realistic profile information and fitness goals
+ */
 export const MOCK_USERS: User[] = [
   {
     id: 1,
@@ -17,6 +38,14 @@ export const MOCK_USERS: User[] = [
   }
 ];
 
+/**
+ * Collection of common food items with nutritional information
+ * Each item includes:
+ * - Basic information (name, serving size)
+ * - Macronutrient breakdown (protein, carbs, fat)
+ * - Caloric content
+ * Values are based on standard nutritional databases
+ */
 export const MOCK_FOOD_ITEMS: FoodItem[] = [
   {
     id: 1,
@@ -110,6 +139,15 @@ export const MOCK_FOOD_ITEMS: FoodItem[] = [
   }
 ];
 
+/**
+ * Sample exercise routines with realistic workout details
+ * Each exercise includes:
+ * - Exercise name and type
+ * - Sets and reps (for strength exercises)
+ * - Duration (for timed exercises)
+ * - Completion status
+ * - Exercise image URL
+ */
 export const MOCK_EXERCISES: Exercise[] = [
   {
     id: 1,
@@ -168,7 +206,15 @@ export const MOCK_EXERCISES: Exercise[] = [
   }
 ];
 
-// Generate meals for today
+/**
+ * Generates a sample meal plan for the current day
+ * Creates a balanced meal plan with:
+ * - Breakfast, lunch, dinner, and snack
+ * - Realistic food combinations
+ * - Calculated nutritional totals
+ * 
+ * @returns {Meal[]} Array of meals with their items and nutritional totals
+ */
 const generateTodayMeals = (): Meal[] => {
   return [
     {
@@ -222,7 +268,15 @@ const generateTodayMeals = (): Meal[] => {
   ];
 };
 
-// Generate today's log
+/**
+ * Today's daily log entry
+ * Includes:
+ * - Current date
+ * - Generated meal plan
+ * - Exercise routine
+ * - Water intake
+ * - Current weight
+ */
 export const MOCK_TODAY_LOG: DailyLog = {
   date: format(new Date(), 'yyyy-MM-dd'),
   meals: generateTodayMeals(),
@@ -231,7 +285,15 @@ export const MOCK_TODAY_LOG: DailyLog = {
   weight: 75
 };
 
-// Generate sample weekly progress data
+/**
+ * Weekly progress data for the past 7 days
+ * Each day includes:
+ * - Weight tracking with small variations
+ * - Calories burned during workouts
+ * - Number of completed workouts
+ * - Achievement of water and macro targets
+ * Data includes realistic fluctuations to simulate real progress
+ */
 export const MOCK_WEEKLY_PROGRESS: WeeklyProgress[] = Array.from({ length: 7 }).map((_, index) => {
   const date = format(subDays(new Date(), 6 - index), 'yyyy-MM-dd');
   return {
@@ -244,7 +306,15 @@ export const MOCK_WEEKLY_PROGRESS: WeeklyProgress[] = Array.from({ length: 7 }).
   };
 });
 
-// Generate previous logs for the past week
+/**
+ * Historical daily logs for the past week
+ * Each log includes:
+ * - Date-specific meal plans
+ * - Exercise routines
+ * - Water intake with random variations
+ * - Weight tracking
+ * Used for displaying progress and historical data
+ */
 export const MOCK_PREVIOUS_LOGS: DailyLog[] = Array.from({ length: 6 }).map((_, index) => {
   const date = format(subDays(new Date(), 6 - index), 'yyyy-MM-dd');
   const waterIntake = Math.floor(Math.random() * 5) + 3;
