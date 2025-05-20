@@ -1,8 +1,24 @@
+/**
+ * AddFoodModal Component
+ * 
+ * A modal component that allows users to search and add food items to a specific meal.
+ * It provides a search interface for food items and displays detailed nutritional information
+ * for the selected food item before adding it to the meal.
+ */
+
 import React, { useState } from 'react';
 import { FoodItem, Meal } from '../types';
 import { motion } from 'framer-motion';
 import { X, Search } from 'lucide-react';
 
+/**
+ * Props for the AddFoodModal component
+ * @property {boolean} isOpen - Controls the visibility of the modal
+ * @property {() => void} onClose - Callback function to close the modal
+ * @property {FoodItem[]} foodItems - Array of available food items to choose from
+ * @property {Meal['type']} mealType - Type of meal (e.g., breakfast, lunch, dinner)
+ * @property {(food: FoodItem, quantity: number, mealType: Meal['type']) => void} onAddFood - Callback function when a food item is added
+ */
 interface AddFoodModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -18,14 +34,22 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
   mealType,
   onAddFood,
 }) => {
+  // State management for search, selection, and quantity
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
 
+  /**
+   * Handles the search input change and updates the search term
+   */
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
+  /**
+   * Handles adding the selected food to the meal
+   * Calls the onAddFood callback and resets the modal state
+   */
   const handleAddFood = () => {
     if (selectedFood) {
       onAddFood(selectedFood, quantity, mealType);
@@ -33,21 +57,28 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
     }
   };
 
+  /**
+   * Resets the modal state to its initial values
+   */
   const reset = () => {
     setSelectedFood(null);
     setQuantity(1);
     setSearchTerm('');
   };
 
+  // Filter food items based on search term
   const filteredFoods = foodItems.filter((food) =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Don't render anything if modal is closed
   if (!isOpen) return null;
 
+  // Capitalize first letter of meal type for display
   const mealTitle = mealType.charAt(0).toUpperCase() + mealType.slice(1);
 
   return (
+    // Modal backdrop with animation
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -55,6 +86,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
       className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 p-4 sm:items-center"
       onClick={onClose}
     >
+      {/* Modal content container with slide-up animation */}
       <motion.div 
         initial={{ y: 100 }}
         animate={{ y: 0 }}
@@ -62,6 +94,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-lg rounded-t-2xl bg-white p-5 dark:bg-gray-900 sm:rounded-2xl"
       >
+        {/* Modal header with title and close button */}
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">Add Food to {mealTitle}</h2>
           <button 
@@ -72,7 +105,9 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
           </button>
         </div>
 
+        {/* Conditional rendering based on whether a food item is selected */}
         {selectedFood ? (
+          // Selected food item view with nutritional information
           <div className="space-y-4">
             <h3 className="text-lg font-medium">{selectedFood.name}</h3>
             
@@ -126,6 +161,7 @@ const AddFoodModal: React.FC<AddFoodModalProps> = ({
             </div>
           </div>
         ) : (
+          // Food search and selection view
           <div>
             <div className="relative mb-4">
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
