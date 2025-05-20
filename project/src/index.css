@@ -1,80 +1,152 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 
+ * FitMate Global Styles
+ * 
+ * This file contains global styles and Tailwind CSS configuration for the FitMate application.
+ * It includes:
+ * - Tailwind CSS imports
+ * - CSS custom properties (variables)
+ * - Base styles for HTML elements
+ * - Reusable component classes
+ * - Utility classes for common UI patterns
+ */
 
+/* Tailwind CSS Framework Imports */
+@tailwind base;    /* Base styles and resets */
+@tailwind components;  /* Component classes */
+@tailwind utilities;   /* Utility classes */
+
+/* 
+ * CSS Custom Properties (Variables)
+ * Defines the application's color scheme and theme variables
+ * Colors are defined in RGB format for use with opacity modifiers
+ */
 :root {
-  --color-primary: 59 130 246; /* blue-500 */
-  --color-primary-light: 96 165 250; /* blue-400 */
-  --color-primary-dark: 37 99 235; /* blue-600 */
-  --color-secondary: 16 185 129; /* emerald-500 */
-  --color-accent: 249 115 22; /* orange-500 */
-  --color-gray: 107 114 128; /* gray-500 */
+  /* Primary Colors - Blue theme */
+  --color-primary: 59 130 246;    /* blue-500 - Main brand color */
+  --color-primary-light: 96 165 250;  /* blue-400 - Lighter variant */
+  --color-primary-dark: 37 99 235;    /* blue-600 - Darker variant */
+  
+  /* Secondary Colors */
+  --color-secondary: 16 185 129;  /* emerald-500 - Success/action color */
+  --color-accent: 249 115 22;     /* orange-500 - Accent/highlight color */
+  --color-gray: 107 114 128;      /* gray-500 - Neutral gray */
 }
 
+/* 
+ * Base Layer Styles
+ * Defines fundamental styles for HTML elements
+ * Uses Tailwind's @layer directive to properly scope styles
+ */
 @layer base {
+  /* Global HTML element styles */
   html {
-    @apply font-sans text-gray-900 antialiased;
-    -webkit-tap-highlight-color: transparent;
+    @apply font-sans text-gray-900 antialiased;  /* Base font and text color */
+    -webkit-tap-highlight-color: transparent;    /* Remove tap highlight on mobile */
   }
   
+  /* Body styles with dark mode support */
   body {
     @apply bg-gray-50 transition-colors duration-200 dark:bg-gray-900 dark:text-gray-100;
   }
 
+  /* Interactive elements with smooth transitions */
   button, a {
     @apply transition-all duration-200;
   }
 }
 
+/* 
+ * Component Layer Styles
+ * Defines reusable component classes using Tailwind's @layer directive
+ * These classes can be composed to create consistent UI elements
+ */
 @layer components {
+  /* Card Component
+   * A versatile container with consistent styling
+   * Used for content sections, modals, and interactive elements
+   */
   .card {
     @apply rounded-xl bg-white p-4 shadow dark:bg-gray-800;
   }
   
+  /* Button Base Styles
+   * Common button styles with consistent padding, rounded corners,
+   * and focus states for accessibility
+   */
   .btn {
     @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium 
     transition-all focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
   
+  /* Primary Button Variant
+   * Used for main actions and primary user interactions
+   */
   .btn-primary {
     @apply bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500;
   }
   
+  /* Secondary Button Variant
+   * Used for alternative actions and secondary interactions
+   */
   .btn-secondary {
     @apply bg-emerald-500 text-white hover:bg-emerald-600 focus:ring-emerald-500;
   }
   
+  /* Outline Button Variant
+   * Used for less prominent actions with transparent background
+   */
   .btn-outline {
     @apply border border-gray-300 bg-transparent hover:bg-gray-50 
     dark:border-gray-700 dark:hover:bg-gray-800;
   }
   
+  /* Form Input Styles
+   * Consistent styling for text inputs with focus states
+   * Includes dark mode support
+   */
   .input {
     @apply w-full rounded-lg border border-gray-300 bg-white px-3 py-2 shadow-sm
     transition-all focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500
     dark:border-gray-700 dark:bg-gray-800 dark:text-white;
   }
   
+  /* Form Label Styles
+   * Consistent styling for form labels with proper spacing
+   */
   .label {
     @apply mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300;
   }
   
+  /* Active Tab Styles
+   * Used for navigation tabs with animated underline indicator
+   */
   .tab-active {
     @apply relative text-blue-600 dark:text-blue-400 after:absolute after:bottom-0 after:left-0 
     after:h-0.5 after:w-full after:bg-blue-600 after:content-[''] dark:after:bg-blue-400;
   }
   
+  /* Navigation Link Styles
+   * Used for bottom navigation bar items
+   */
   .nav-link {
     @apply flex h-full flex-col items-center justify-center text-xs font-medium;
   }
 
+  /* Active Navigation Link Styles
+   * Indicates the current active navigation item
+   */
   .nav-link-active {
     @apply text-blue-500;
   }
 }
 
+/* 
+ * Progress Ring Animation
+ * Custom animation for circular progress indicators
+ * Used in progress tracking components
+ */
 .progress-ring-circle {
-  transition: stroke-dashoffset 0.5s ease;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 0.5s ease;  /* Smooth animation for progress updates */
+  transform: rotate(-90deg);               /* Rotate to start from top */
+  transform-origin: 50% 50%;              /* Center the rotation point */
 }
