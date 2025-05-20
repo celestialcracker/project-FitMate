@@ -1,7 +1,7 @@
 <!--
   FitMate - Fitness & Nutrition Tracker
   Main HTML entry point for the FitMate web application.
-  
+
   This file serves as the template for the single-page application (SPA).
   It includes:
   - Essential meta tags for proper rendering and SEO
@@ -15,32 +15,16 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Character encoding for proper text rendering -->
     <meta charset="UTF-8" />
-    
-    <!-- Application icon (favicon) -->
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    
-    <!-- Viewport settings for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Theme color for browser UI elements (matches primary brand color) -->
     <meta name="theme-color" content="#3B82F6" />
-    
-    <!-- iOS web app capable settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- Application title -->
     <title>FitMate - Fitness & Nutrition Tracker</title>
   </head>
   <body>
-    <!-- Root element for React application mounting -->
     <div id="root"></div>
-    
-    <!-- Entry point script for the application
-         Uses type="module" for ES modules support
-         Vite will handle the bundling and transformation -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
