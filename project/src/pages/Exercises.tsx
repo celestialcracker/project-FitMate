@@ -19,24 +19,11 @@ import ExerciseItem from '../components/ExerciseItem';
 import NavBar from '../components/NavBar';
 import { Dumbbell } from 'lucide-react';
 
-/**
- * Exercises Component
- * 
- * Renders the daily exercise routine with filtering and progress tracking.
- * Manages exercise state, loading status, and filter selection.
- * 
- * @returns {JSX.Element} Rendered exercises page
- */
 const Exercises: React.FC = () => {
-  // State for exercises list and UI
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<'all' | 'completed' | 'incomplete'>('all');
   
-  /**
-   * Fetch today's exercises on component mount
-   * Updates state with fetched exercise data
-   */
   useEffect(() => {
     const fetchExercises = async () => {
       try {
@@ -52,20 +39,12 @@ const Exercises: React.FC = () => {
     fetchExercises();
   }, []);
   
-  /**
-   * Updates exercise completion status
-   * @param {Exercise} updatedExercise - Exercise with updated completion status
-   */
   const handleToggleComplete = (updatedExercise: Exercise) => {
     setExercises(prev => 
       prev.map(ex => ex.id === updatedExercise.id ? updatedExercise : ex)
     );
   };
   
-  /**
-   * Filter exercises based on active filter selection
-   * Returns filtered list of exercises
-   */
   const filteredExercises = exercises.filter(exercise => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'completed') return exercise.completed;
@@ -73,13 +52,11 @@ const Exercises: React.FC = () => {
     return true;
   });
   
-  // Calculate progress statistics
   const completedCount = exercises.filter(ex => ex.completed).length;
   const progress = exercises.length > 0 
     ? Math.round((completedCount / exercises.length) * 100) 
     : 0;
 
-  // Loading state UI
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -93,16 +70,13 @@ const Exercises: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 dark:bg-gray-900">
-      {/* Header with Progress Bar */}
       <header className="bg-gradient-to-r from-emerald-600 to-emerald-400 p-6 text-white">
         <h1 className="text-2xl font-bold">Daily Workout</h1>
         <div className="mt-2">
           <div className="flex items-center">
-            {/* Progress Percentage */}
             <div className="mr-3">
               <span className="text-lg font-semibold">{progress}%</span>
             </div>
-            {/* Animated Progress Bar */}
             <div className="h-2 flex-1 overflow-hidden rounded-full bg-white bg-opacity-25">
               <motion.div 
                 initial={{ width: 0 }}
@@ -111,7 +85,6 @@ const Exercises: React.FC = () => {
                 className="h-full rounded-full bg-white"
               />
             </div>
-            {/* Exercise Count */}
             <div className="ml-3 text-sm">
               <span>{completedCount}/{exercises.length}</span>
             </div>
@@ -120,7 +93,6 @@ const Exercises: React.FC = () => {
       </header>
 
       <main className="mx-auto max-w-md p-4">
-        {/* Filter Buttons */}
         <div className="mb-6 flex">
           <button
             className={`flex-1 rounded-l-lg border border-r-0 border-gray-300 px-4 py-2 font-medium 
@@ -145,10 +117,8 @@ const Exercises: React.FC = () => {
           </button>
         </div>
 
-        {/* Exercise List */}
         <AnimatePresence>
           {filteredExercises.length > 0 ? (
-            // Render filtered exercises with animations
             filteredExercises.map((exercise) => (
               <motion.div
                 key={exercise.id}
@@ -164,7 +134,6 @@ const Exercises: React.FC = () => {
               </motion.div>
             ))
           ) : (
-            // Empty state message
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -182,7 +151,6 @@ const Exercises: React.FC = () => {
         </AnimatePresence>
       </main>
 
-      {/* Navigation Bar */}
       <NavBar />
     </div>
   );
