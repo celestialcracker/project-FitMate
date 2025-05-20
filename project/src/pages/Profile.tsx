@@ -1,3 +1,17 @@
+/**
+ * Profile Page Component
+ * 
+ * A page that displays and manages user profile information and settings.
+ * Features:
+ * - Profile information display and editing
+ * - Theme switching (light/dark mode)
+ * - Membership duration tracking
+ * - Daily targets display
+ * - Logout functionality
+ * - Responsive design
+ * - Animated transitions
+ */
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -15,21 +29,41 @@ import ProfileForm from '../components/ProfileForm';
 import NavBar from '../components/NavBar';
 import { User } from '../types';
 
+/**
+ * Profile Component
+ * 
+ * Renders the user profile interface with editable information and settings.
+ * Manages user data, theme preferences, and authentication state.
+ * 
+ * @returns {JSX.Element} Rendered profile page
+ */
 const Profile: React.FC = () => {
   const navigate = useNavigate();
+  // State management for user data and UI
   const [user, setUser] = useState(getCurrentUser() as User);
   const [theme, setTheme] = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   
+  /**
+   * Handles user logout and navigation to login page
+   */
   const handleLogout = async () => {
     await logout();
     navigate('/login');
   };
   
+  /**
+   * Toggles between light and dark theme
+   */
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
   
+  /**
+   * Calculates the duration of user's membership in days
+   * 
+   * @returns {string} Membership duration in days or 'N/A' if not available
+   */
   const calculateMembershipDuration = () => {
     if (!user.joinedDate) return 'N/A';
     
@@ -43,11 +77,14 @@ const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 dark:bg-gray-900">
+      {/* Profile Header */}
       <header className="bg-gradient-to-r from-gray-700 to-gray-600 p-6 text-white">
         <div className="flex items-center">
+          {/* Profile Avatar */}
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-gray-800">
             <UserIcon className="h-8 w-8" />
           </div>
+          {/* User Name and Email */}
           <div className="ml-4">
             <h1 className="text-2xl font-bold">{user.name}</h1>
             <p className="text-gray-200">{user.email}</p>
@@ -56,7 +93,9 @@ const Profile: React.FC = () => {
       </header>
 
       <main className="mx-auto max-w-md p-4">
+        {/* Profile Information Section */}
         {isEditing ? (
+          // Edit Profile Form
           <section className="card mb-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Edit Profile</h2>
@@ -77,6 +116,7 @@ const Profile: React.FC = () => {
             />
           </section>
         ) : (
+          // Profile Information Display
           <section className="card mb-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-xl font-semibold">Profile Information</h2>
@@ -89,6 +129,7 @@ const Profile: React.FC = () => {
             </div>
             
             <div className="space-y-4">
+              {/* Personal Information Grid */}
               <div className="grid grid-cols-2 gap-y-4">
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Age</p>
@@ -108,21 +149,25 @@ const Profile: React.FC = () => {
                 </div>
               </div>
               
+              {/* Daily Targets Section */}
               <div className="border-t pt-4 dark:border-gray-700">
                 <p className="text-sm text-gray-500 dark:text-gray-400">Daily Targets</p>
                 <div className="mt-2 grid grid-cols-3 gap-2">
+                  {/* Calories Target */}
                   <div className="rounded-lg bg-blue-50 px-3 py-2 text-center dark:bg-blue-900/20">
                     <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
                       {user.dailyCalorieTarget}
                     </p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">Calories</p>
                   </div>
+                  {/* Protein Target */}
                   <div className="rounded-lg bg-blue-50 px-3 py-2 text-center dark:bg-blue-900/20">
                     <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
                       {user.dailyProteinTarget}g
                     </p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">Protein</p>
                   </div>
+                  {/* Water Target */}
                   <div className="rounded-lg bg-blue-50 px-3 py-2 text-center dark:bg-blue-900/20">
                     <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
                       {user.dailyWaterTarget}
@@ -135,10 +180,12 @@ const Profile: React.FC = () => {
           </section>
         )}
 
+        {/* Stats Section */}
         <section className="card mb-6">
           <h2 className="mb-4 text-lg font-semibold">Stats</h2>
           
           <div className="grid grid-cols-2 gap-4">
+            {/* Membership Duration */}
             <div className="flex items-center">
               <div className="mr-3 rounded-full bg-purple-100 p-2 dark:bg-purple-900/30">
                 <Award className="h-5 w-5 text-purple-600 dark:text-purple-400" />
@@ -149,6 +196,7 @@ const Profile: React.FC = () => {
               </div>
             </div>
             
+            {/* Join Date */}
             <div className="flex items-center">
               <div className="mr-3 rounded-full bg-green-100 p-2 dark:bg-green-900/30">
                 <Calendar className="h-5 w-5 text-green-600 dark:text-green-400" />
@@ -163,7 +211,9 @@ const Profile: React.FC = () => {
           </div>
         </section>
 
+        {/* Settings Section */}
         <section className="space-y-3">
+          {/* Theme Toggle Button */}
           <button 
             onClick={toggleTheme} 
             className="flex w-full items-center justify-between rounded-lg bg-white p-4 shadow dark:bg-gray-800"
@@ -180,6 +230,7 @@ const Profile: React.FC = () => {
             </div>
           </button>
           
+          {/* Logout Button */}
           <button 
             onClick={handleLogout} 
             className="flex w-full items-center rounded-lg bg-white p-4 text-red-600 shadow hover:bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-red-900/10"
@@ -190,6 +241,7 @@ const Profile: React.FC = () => {
         </section>
       </main>
 
+      {/* Navigation Bar */}
       <NavBar />
     </div>
   );
