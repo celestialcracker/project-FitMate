@@ -14,14 +14,11 @@
 import { User, AuthUser } from '../types';
 import { MOCK_USERS } from '../data/mockData';
 
-// In-memory storage for users and current authenticated user
+// Mock users storage
 let users: User[] = [...MOCK_USERS];
 let authUser: AuthUser | null = null;
 
-/**
- * Loads the authentication state from localStorage
- * Called on module initialization to restore any existing session
- */
+// Check if we have a stored user in localStorage
 const loadAuthState = (): void => {
   try {
     const storedUser = localStorage.getItem('fitmate_user');
@@ -33,19 +30,13 @@ const loadAuthState = (): void => {
   }
 };
 
-// Initialize auth state on module load
+// Initialize auth state
 loadAuthState();
 
-/**
- * Authenticates a user with email and password
- * @param {string} email - User's email address
- * @param {string} password - User's password
- * @returns {Promise<AuthUser>} Promise resolving to authenticated user data
- * @throws {Error} If credentials are invalid
- */
+// Login function
 export const login = (email: string, password: string): Promise<AuthUser> => {
   return new Promise((resolve, reject) => {
-    // Simulate API call with timeout
+    // Simulate API call
     setTimeout(() => {
       const user = users.find(
         (u) => u.email.toLowerCase() === email.toLowerCase() && password === password
@@ -57,7 +48,7 @@ export const login = (email: string, password: string): Promise<AuthUser> => {
           token: `mock-token-${user.id}-${Date.now()}`
         };
         
-        // Persist to localStorage
+        // Store in localStorage
         localStorage.setItem('fitmate_user', JSON.stringify(authUserData));
         authUser = authUserData;
         resolve(authUserData);
@@ -68,21 +59,14 @@ export const login = (email: string, password: string): Promise<AuthUser> => {
   });
 };
 
-/**
- * Registers a new user
- * @param {string} name - User's full name
- * @param {string} email - User's email address
- * @param {string} password - User's password
- * @returns {Promise<AuthUser>} Promise resolving to authenticated user data
- * @throws {Error} If email is already in use
- */
+// Register function
 export const register = (
   name: string, 
   email: string, 
   password: string
 ): Promise<AuthUser> => {
   return new Promise((resolve, reject) => {
-    // Simulate API call with timeout
+    // Simulate API call
     setTimeout(() => {
       const existingUser = users.find(
         (u) => u.email.toLowerCase() === email.toLowerCase()
@@ -93,7 +77,6 @@ export const register = (
         return;
       }
       
-      // Create new user with default targets
       const newUser: User = {
         id: users.length + 1,
         name,
@@ -111,7 +94,7 @@ export const register = (
         token: `mock-token-${newUser.id}-${Date.now()}`
       };
       
-      // Persist to localStorage
+      // Store in localStorage
       localStorage.setItem('fitmate_user', JSON.stringify(authUserData));
       authUser = authUserData;
       resolve(authUserData);
@@ -119,11 +102,7 @@ export const register = (
   });
 };
 
-/**
- * Logs out the current user
- * Clears the authentication state from memory and localStorage
- * @returns {Promise<void>} Promise that resolves when logout is complete
- */
+// Logout function
 export const logout = (): Promise<void> => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -134,20 +113,12 @@ export const logout = (): Promise<void> => {
   });
 };
 
-/**
- * Gets the currently authenticated user
- * @returns {AuthUser | null} The authenticated user or null if not logged in
- */
+// Get current user
 export const getCurrentUser = (): AuthUser | null => {
   return authUser;
 };
 
-/**
- * Updates the current user's profile information
- * @param {Partial<Omit<User, 'id' | 'email'>>} updatedData - Object containing updated user data
- * @returns {Promise<AuthUser>} Promise resolving to updated user data
- * @throws {Error} If no user is authenticated
- */
+// Update user profile
 export const updateUserProfile = (
   updatedData: Partial<Omit<User, 'id' | 'email'>>
 ): Promise<AuthUser> => {
@@ -158,18 +129,17 @@ export const updateUserProfile = (
     }
 
     setTimeout(() => {
-      // Update user in the users array
+      // Update user in the array
       users = users.map(user => 
         user.id === authUser?.id ? { ...user, ...updatedData } : user
       );
       
-      // Update authenticated user data
+      // Update auth user
       const updatedAuthUser: AuthUser = {
         ...authUser,
         ...updatedData
       };
       
-      // Persist changes to localStorage
       localStorage.setItem('fitmate_user', JSON.stringify(updatedAuthUser));
       authUser = updatedAuthUser;
       resolve(updatedAuthUser);
