@@ -12,50 +12,30 @@
  * - Recommended rules from ESLint and TypeScript
  */
 
-// Import ESLint plugins and configurations
-import js from '@eslint/js';                    // Core ESLint rules
-import globals from 'globals';                  // Global variables definitions
-import reactHooks from 'eslint-plugin-react-hooks';    // React Hooks rules
-import reactRefresh from 'eslint-plugin-react-refresh'; // React Refresh rules
-import tseslint from 'typescript-eslint';       // TypeScript ESLint integration
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 
-// Export the ESLint configuration
 export default tseslint.config(
-  // Ignore build output directory
   { ignores: ['dist'] },
-  
-  // Main configuration object
   {
-    // Extend recommended configurations
-    extends: [
-      js.configs.recommended,           // ESLint recommended rules
-      ...tseslint.configs.recommended,  // TypeScript recommended rules
-    ],
-    
-    // Apply to TypeScript and TSX files
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
-    
-    // Language-specific options
     languageOptions: {
-      ecmaVersion: 2020,               // Use modern JavaScript features
-      globals: globals.browser,        // Include browser globals
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
-    
-    // Configure plugins
     plugins: {
-      'react-hooks': reactHooks,       // React Hooks plugin
-      'react-refresh': reactRefresh,   // React Refresh plugin
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
-    
-    // Customize rules
     rules: {
-      // Include recommended React Hooks rules
       ...reactHooks.configs.recommended.rules,
-      
-      // React Refresh rules for development
       'react-refresh/only-export-components': [
-        'warn',                        // Warning level
-        { allowConstantExport: true }, // Allow constant exports
+        'warn',
+        { allowConstantExport: true },
       ],
     },
   }
