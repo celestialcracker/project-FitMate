@@ -1,3 +1,17 @@
+/**
+ * Nutrition Page Component
+ * 
+ * A page that manages and displays the user's daily nutrition tracking.
+ * Features:
+ * - Daily calorie and macro tracking
+ * - Meal management (breakfast, lunch, dinner, snacks)
+ * - Food item addition to meals
+ * - Real-time stats updates
+ * - Progress visualization
+ * - Responsive design with dark mode support
+ * - Loading states
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Meal, FoodItem, DailyLog } from '../types';
 import { getTodayLog, getFoodItems, addMeal, calculateTodayStats } from '../utils/dataUtils';
@@ -7,7 +21,16 @@ import AddFoodModal from '../components/AddFoodModal';
 import NavBar from '../components/NavBar';
 import { User, Utensils } from 'lucide-react';
 
+/**
+ * Nutrition Component
+ * 
+ * Renders the nutrition tracking interface with meal sections and macro statistics.
+ * Manages meal data, food items, and daily nutrition statistics.
+ * 
+ * @returns {JSX.Element} Rendered nutrition page
+ */
 const Nutrition: React.FC = () => {
+  // State management for nutrition data and UI
   const [dailyLog, setDailyLog] = useState<DailyLog | null>(null);
   const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
   const [showAddFoodModal, setShowAddFoodModal] = useState(false);
@@ -22,6 +45,10 @@ const Nutrition: React.FC = () => {
   
   const user = getCurrentUser();
   
+  /**
+   * Fetch initial nutrition data on component mount
+   * Loads today's log, available food items, and calculates stats
+   */
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,11 +77,23 @@ const Nutrition: React.FC = () => {
     fetchData();
   }, []);
   
+  /**
+   * Opens the add food modal for a specific meal type
+   * @param {Meal['type']} mealType - Type of meal to add food to
+   */
   const handleOpenAddFood = (mealType: Meal['type']) => {
     setSelectedMealType(mealType);
     setShowAddFoodModal(true);
   };
   
+  /**
+   * Adds a food item to a meal and updates nutrition stats
+   * Handles both existing and new meals
+   * 
+   * @param {FoodItem} food - Food item to add
+   * @param {number} quantity - Quantity of the food item
+   * @param {Meal['type']} mealType - Type of meal to add to
+   */
   const handleAddFood = async (food: FoodItem, quantity: number, mealType: Meal['type']) => {
     if (!dailyLog) return;
     
@@ -68,6 +107,7 @@ const Nutrition: React.FC = () => {
         { item: food, quantity }
       ];
       
+      // Calculate updated meal totals
       const updatedMeal: Meal = {
         ...existingMeal,
         items: updatedItems,
@@ -77,6 +117,7 @@ const Nutrition: React.FC = () => {
         totalFat: updatedItems.reduce((sum, { item, quantity }) => sum + (item.fat * quantity), 0)
       };
       
+      // Update meals list
       const updatedMeals = dailyLog.meals.map(meal => 
         meal.id === existingMeal.id ? updatedMeal : meal
       );
@@ -86,7 +127,7 @@ const Nutrition: React.FC = () => {
         meals: updatedMeals
       });
     } else {
-      // Create new meal
+      // Create new meal with initial food item
       const newMeal: Omit<Meal, 'id'> = {
         type: mealType,
         items: [{ item: food, quantity }],
@@ -104,7 +145,7 @@ const Nutrition: React.FC = () => {
       });
     }
     
-    // Update stats
+    // Update daily statistics
     const stats = await calculateTodayStats();
     setTodayStats({
       caloriesConsumed: stats.caloriesConsumed,
@@ -113,13 +154,18 @@ const Nutrition: React.FC = () => {
       fatConsumed: stats.fatConsumed
     });
     
-    // Close modal
     setShowAddFoodModal(false);
   };
   
+  // Available meal types
   const mealTypes: Meal['type'][] = ['breakfast', 'lunch', 'dinner', 'snack'];
 
-  // Find or create meal sections for each type
+  /**
+   * Gets or creates meal sections for each meal type
+   * Ensures all meal types are represented in the UI
+   * 
+   * @returns {Meal[]} Array of meals for all meal types
+   */
   const getMealsByType = () => {
     return mealTypes.map(type => {
       const existingMeal = dailyLog?.meals.find(meal => meal.type === type);
@@ -128,7 +174,7 @@ const Nutrition: React.FC = () => {
         return existingMeal;
       }
       
-      // Create an empty meal for types that don't have entries yet
+      // Create empty meal placeholder for types without entries
       return {
         id: 0, // Temporary ID for empty meals
         type,
@@ -141,6 +187,7 @@ const Nutrition: React.FC = () => {
     });
   };
   
+  // Loading state UI
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -154,17 +201,21 @@ const Nutrition: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 dark:bg-gray-900">
+      {/* Header with Calorie Progress */}
       <header className="bg-gradient-to-r from-orange-500 to-orange-300 p-6 text-white">
         <h1 className="text-2xl font-bold">Nutrition</h1>
         <div className="mt-2 flex justify-between">
+          {/* Daily Goal */}
           <div>
             <span className="block text-sm">Daily goal</span>
             <span className="text-lg font-semibold">{user?.dailyCalorieTarget} cal</span>
           </div>
+          {/* Calories Consumed */}
           <div>
             <span className="block text-sm">Consumed</span>
             <span className="text-lg font-semibold">{todayStats.caloriesConsumed} cal</span>
           </div>
+          {/* Calories Remaining */}
           <div>
             <span className="block text-sm">Remaining</span>
             <span className="text-lg font-semibold">
@@ -173,6 +224,7 @@ const Nutrition: React.FC = () => {
           </div>
         </div>
         
+        {/* Progress Bar */}
         <div className="mt-3 h-2 overflow-hidden rounded-full bg-white bg-opacity-25">
           <div 
             className="h-full rounded-full bg-white"
@@ -184,6 +236,7 @@ const Nutrition: React.FC = () => {
       </header>
 
       <main className="mx-auto max-w-md p-4">
+        {/* Meal Sections */}
         {getMealsByType().map((meal) => (
           <MealSection 
             key={`${meal.type}-${meal.id}`}
@@ -192,17 +245,21 @@ const Nutrition: React.FC = () => {
           />
         ))}
         
+        {/* Daily Macros Summary */}
         <div className="mt-4 rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
           <h3 className="mb-2 font-semibold">Daily Macros</h3>
           <div className="grid grid-cols-3 gap-4">
+            {/* Protein */}
             <div className="text-center">
               <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{todayStats.proteinConsumed}g</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Protein</p>
             </div>
+            {/* Carbs */}
             <div className="text-center">
               <p className="text-xl font-bold text-amber-600 dark:text-amber-400">{todayStats.carbsConsumed}g</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Carbs</p>
             </div>
+            {/* Fat */}
             <div className="text-center">
               <p className="text-xl font-bold text-pink-600 dark:text-pink-400">{todayStats.fatConsumed}g</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">Fat</p>
@@ -211,8 +268,10 @@ const Nutrition: React.FC = () => {
         </div>
       </main>
 
+      {/* Navigation Bar */}
       <NavBar />
 
+      {/* Add Food Modal */}
       {showAddFoodModal && (
         <AddFoodModal
           isOpen={showAddFoodModal}
