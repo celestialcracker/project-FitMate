@@ -70,22 +70,7 @@ http://localhost:5173
 - **Icons**: Lucide React 0.344.0
 - **Routing**: React Router DOM 6.22.3
 - **Date Handling**: date-fns 3.3.1
-
-##  System Requirements
-
-### Minimum Requirements
-- **Processor**: Dual-core 2.0 GHz
-- **Memory**: 4 GB RAM
-- **Storage**: 500 MB free space
-- **Internet**: 1 Mbps connection
-- **Display**: 1280 x 720 resolution
-
-### Recommended Requirements
-- **Processor**: Quad-core 2.5 GHz
-- **Memory**: 8 GB RAM
-- **Storage**: 1 GB free space
-- **Internet**: 5 Mbps connection
-- **Display**: 1920 x 1080 resolution
+- 
 
 ##  Development
 
