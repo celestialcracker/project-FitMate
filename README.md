@@ -1,36 +1,34 @@
 # FitMate
 
-![FitMate Logo](project/public/fitmate-logo.png)
-
 A comprehensive fitness tracking and wellness management application built with React, TypeScript, and modern web technologies.
 
-## 🌟 Features
+##  Features
 
-- **📊 Interactive Dashboard**
+- ** Interactive Dashboard**
   - Real-time fitness metrics
   - Daily progress tracking
   - Customizable widgets
   - Dark/Light mode support
 
-- **💪 Exercise Management**
+- ** Exercise Management**
   - Workout planning and tracking
   - Exercise library
   - Progress monitoring
   - Custom workout creation
 
-- **🥗 Nutrition Tracking**
+- ** Nutrition Tracking**
   - Meal planning and logging
   - Calorie tracking
   - Macronutrient monitoring
   - Water intake tracking
 
-- **📈 Progress Visualization**
+- ** Progress Visualization**
   - Interactive charts
   - Performance metrics
   - Goal tracking
   - Historical data analysis
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -42,7 +40,7 @@ A comprehensive fitness tracking and wellness management application built with 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/project-FitMate.git
+git clone https://github.com/celestialcracker/project-FitMate.git
 cd project-FitMate/project
 ```
 
@@ -58,10 +56,10 @@ npm run dev
 
 4. Open your browser and navigate to:
 ```
-http://localhost:3000
+http://localhost:5173
 ```
 
-## 🛠️ Built With
+##  Built With
 
 - **Frontend Framework**: React 18.3.1
 - **Type System**: TypeScript 5.5.3
@@ -73,7 +71,7 @@ http://localhost:3000
 - **Routing**: React Router DOM 6.22.3
 - **Date Handling**: date-fns 3.3.1
 
-## 📋 System Requirements
+##  System Requirements
 
 ### Minimum Requirements
 - **Processor**: Dual-core 2.0 GHz
@@ -89,7 +87,7 @@ http://localhost:3000
 - **Internet**: 5 Mbps connection
 - **Display**: 1920 x 1080 resolution
 
-## 🔧 Development
+##  Development
 
 ### Available Scripts
 
@@ -123,7 +121,7 @@ project/
 └── package.json      # Project dependencies
 ```
 
-## 🎨 Features in Detail
+##  Features in Detail
 
 ### Dashboard
 - Real-time progress tracking
@@ -153,15 +151,7 @@ project/
 - Achievement monitoring
 - Trend visualization
 
-## 🔐 Security
-
-- Secure authentication
-- Protected routes
-- Data encryption
-- Session management
-- Privacy controls
-
-## 🌐 Browser Support
+##  Browser Support
 
 - Google Chrome (90+)
 - Mozilla Firefox (85+)
@@ -169,32 +159,7 @@ project/
 - Safari (14+)
 - Mobile browsers (Chrome Android, Safari iOS)
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+##  Authors
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Authors
-
-- Your Name - Initial work - [YourGitHub](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- React team for the amazing framework
-- Tailwind CSS team for the utility-first CSS framework
-- All contributors who have helped shape this project
-
-## 📞 Support
-
-For support, please open an issue in the GitHub repository or contact the development team.
-
----
-
-Made with ❤️ by [Your Name/Team] 
+- Umesh - Initial work - [celestialcracker](https://github.com/celestialcracker)
