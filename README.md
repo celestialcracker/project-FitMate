@@ -70,7 +70,7 @@ http://localhost:5173
 - **Icons**: Lucide React 0.344.0
 - **Routing**: React Router DOM 6.22.3
 - **Date Handling**: date-fns 3.3.1
-- 
+  
 
 ##  Development
 
